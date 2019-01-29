@@ -1,0 +1,251 @@
+@startuml
+
+title __SAMPLE's Class Diagram__\n
+
+  package  {
+    package sample {
+      class ControlsColorHandler {
+          {static} ~ FAILURE_COLOR : String
+          {static} ~ OK_COLOR_LIGHT_GREY : String
+          {static} ~ OK_COLOR_WHITE : String
+          ~ adjustControlsColor()
+          ~ adjustControlsColor()
+          ~ setColor()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class ControlsDataReader {
+          ~ getControlValue()
+          ~ areAllControlsFilledWithData()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class ControlsDataWriter {
+          ~ resetValues()
+          ~ setStartupValues()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class EditTaskWindowController {
+          - editedTaskId : int
+          ~ statusSelectorList : Collection<String>
+          ~ prioritySelectorList : Collection<String>
+          ~ statusSelector : ObservableList<String>
+          ~ prioritySelector : ObservableList<String>
+          ~ editTaskDate : DatePicker
+          ~ editTaskStatus : ChoiceBox<String>
+          ~ editTaskPriority : ChoiceBox<String>
+          ~ editTaskDescription : TextField
+          ~ editTaskButton : Button
+          ~ initData()
+          + initialize()
+          + clickAtEditTaskButton()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class Excel {
+          {static} ~ EXCEL_FILE_PATH : String
+          + write()
+          - addColumnTitles()
+          - addTaskEntries()
+          - adjustColumnWidth()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class Main {
+          + start()
+          + stop()
+          {static} + main()
+      }
+    }
+  }
+  
+
+  package  {
+    abstract class Parameters {
+        + Parameters()
+        {abstract} + getRaw()
+        {abstract} + getUnnamed()
+        {abstract} + getNamed()
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class MainWindowController {
+          ~ tasks : Collection<Task>
+          - filteredTasksGlobalVariable : Collection<Task>
+          ~ statusSelectorList : Collection<String>
+          ~ prioritySelectorList : Collection<String>
+          ~ priorityFilterList : Collection<String>
+          ~ statusFilterList : Collection<String>
+          ~ taskTable : ObservableList<Task>
+          ~ statusSelector : ObservableList<String>
+          ~ prioritySelector : ObservableList<String>
+          ~ statusFilter : ObservableList<String>
+          ~ priorityFilter : ObservableList<String>
+          ~ taskTableView : TableView<Task>
+          ~ taskTableViewDateColumn : TableColumn<Task, Date>
+          ~ taskTableViewStatusColumn : TableColumn<Task, String>
+          ~ taskTableViewPriorityColumn : TableColumn<Task, String>
+          ~ taskTableViewDescriptionColumn : TableColumn<Task, String>
+          ~ addTaskDate : DatePicker
+          ~ addTaskStatus : ChoiceBox<String>
+          ~ addTaskPriority : ChoiceBox<String>
+          ~ addTaskDescription : TextField
+          ~ addTaskButton : Button
+          ~ filterDateFrom : DatePicker
+          ~ filterDateTo : DatePicker
+          ~ filterTaskDescription : TextField
+          ~ filterTaskStatus : ChoiceBox<String>
+          ~ filterTaskPriority : ChoiceBox<String>
+          ~ filterApplyButton : Button
+          ~ filterResetButton : Button
+          ~ filterDateFromRemoveButton : Button
+          ~ filterDateToRemoveButton : Button
+          ~ writeToExcelAllData : MenuItem
+          ~ writeToExcelFilteredData : MenuItem
+          ~ editSelectedTask : MenuItem
+          ~ removeSelectedTask : MenuItem
+          + initialize()
+          + clickAtRemoveSelectedTask()
+          + clickAtEditSelectedTask()
+          + clickAtWriteToExcelAlData()
+          + clickAtWriteToExcelFilteredData()
+          + clickAtAddTaskButton()
+          - refreshTable()
+          + resetFilterControls()
+          + searchTaskAccordingToFilters()
+          + clearFilterDateFrom()
+          + clearFilterDateTo()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      interface Readable {
+          {abstract} + read()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class Search {
+          + searchTaskForDateRange()
+          + searchTaskAfterCertainDate()
+          + searchTaskBeforeCertainDate()
+          - IsDateInSpecificDateRange()
+          + searchTaskForTaskDescription()
+          + searchTaskForTaskStatus()
+          + searchTaskForTaskPriority()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class SqlHandler {
+          {static} ~ DATABASE_URL : String
+          {static} ~ DATABASE_NAME : String
+          {static} ~ TABLE_NAME : String
+          + read()
+          - createConnection()
+          - readTasks()
+          + write()
+          + writeOneElement()
+          + removeTask()
+          - removeTable()
+          - createTableInDatabase()
+          - addListToDatabase()
+          + getLastWrittenTaskId()
+          + changeTask()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      class Task {
+          - description : String
+          - date : Date
+          - priority : String
+          - status : String
+          - taskId : int
+          + Task()
+          + Task()
+          + getStatus()
+          + setStatus()
+          + getDescription()
+          + getDate()
+          + getPriority()
+          + getTaskId()
+          + setTaskId()
+          + getObjectArrayFromTaskFields()
+          + toString()
+      }
+    }
+  }
+  
+
+  package  {
+    package sample {
+      interface Writeable {
+          {abstract} + write()
+      }
+    }
+  }
+  
+
+  ControlsDataWriter o-- ControlsColorHandler : controlsColorHandler
+  EditTaskWindowController -up-|> Initializable
+  EditTaskWindowController o-- ControlsColorHandler : controlsColorHandler
+  EditTaskWindowController o-- ControlsDataReader : controlsDataReader
+  EditTaskWindowController o-- SqlHandler : sqlHandler
+  EditTaskWindowController o-- Task : editedTask
+  Excel -up-|> Writeable
+  Main -up-|> Application
+  Main +-down- Parameters
+  MainWindowController -up-|> Initializable
+  MainWindowController o-- ControlsColorHandler : controlsColorHandler
+  MainWindowController o-- ControlsDataReader : controlsDataReader
+  MainWindowController o-- ControlsDataWriter : controlsDataWriter
+  MainWindowController o-- SqlHandler : sqlHandler
+  SqlHandler -up-|> Writeable
+  SqlHandler -up-|> Readable
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

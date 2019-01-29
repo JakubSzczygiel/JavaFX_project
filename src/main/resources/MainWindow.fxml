@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainWindowController">
+    <center>
+        <TableView fx:id="taskTableView" accessibleRole="COMBO_BOX" prefHeight="536.0" prefWidth="775.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="taskTableViewDateColumn" prefWidth="100.0" text="DATE" />
+                <TableColumn fx:id="taskTableViewStatusColumn" prefWidth="100.0" text="STATUS" />
+                <TableColumn fx:id="taskTableViewPriorityColumn" prefWidth="100.0" text="PRIORITY" />
+                <TableColumn fx:id="taskTableViewDescriptionColumn" prefWidth="474.0" text="DESCRIPTION" />
+            </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+        </TableView>
+    </center>
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="writeToExcelAllData" mnemonicParsing="false" onAction="#clickAtWriteToExcelAlData" text="Write to Excel (all data)" />
+                  <MenuItem fx:id="writeToExcelFilteredData" mnemonicParsing="false" onAction="#clickAtWriteToExcelFilteredData" text="Write to Excel (filtered data)" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem fx:id="editSelectedTask" mnemonicParsing="false" onAction="#clickAtEditSelectedTask" text="Edit selected task" />
+                  <MenuItem fx:id="removeSelectedTask" mnemonicParsing="false" onAction="#clickAtRemoveSelectedTask" text="Remove selected task" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox prefHeight="508.0" prefWidth="225.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" prefHeight="20.0" prefWidth="115.0" text="Filter options" textAlignment="CENTER">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </Label>
+            <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                      <DatePicker fx:id="filterDateFrom" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="date from" />
+                  <Button fx:id="filterDateFromRemoveButton" mnemonicParsing="false" onAction="#clearFilterDateFrom" text="X" />
+               </children>
+               <VBox.margin>
+                  <Insets left="30.0" right="20.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                      <DatePicker fx:id="filterDateTo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="date to">
+                          <opaqueInsets>
+                              <Insets left="30.0" />
+                          </opaqueInsets>
+                      </DatePicker>
+                  <Button fx:id="filterDateToRemoveButton" mnemonicParsing="false" onAction="#clearFilterDateTo" text="X" />
+               </children>
+               <padding>
+                  <Insets left="30.0" right="20.0" />
+               </padding>
+            </HBox>
+                <TextField fx:id="filterTaskDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="task description">
+                    <VBox.margin>
+                        <Insets left="30.0" right="20.0" />
+                    </VBox.margin></TextField>
+                <ChoiceBox fx:id="filterTaskStatus" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                    <VBox.margin>
+                        <Insets left="30.0" right="20.0" />
+                    </VBox.margin>
+                </ChoiceBox>
+            <ChoiceBox fx:id="filterTaskPriority" layoutX="40.0" layoutY="165.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <VBox.margin>
+                  <Insets left="30.0" right="20.0" />
+               </VBox.margin>
+            </ChoiceBox>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="filterResetButton" mnemonicParsing="false" onAction="#resetFilterControls" text="Reset" />
+                  <Button fx:id="filterApplyButton" mnemonicParsing="false" onAction="#searchTaskAccordingToFilters" text="Apply">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+            </children>
+        </VBox>
+    </left>
+   <bottom>
+      <VBox prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Add task" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <HBox alignment="CENTER" prefHeight="129.0" prefWidth="1000.0" spacing="10.0">
+               <children>
+                  <DatePicker fx:id="addTaskDate" promptText="select date">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin></DatePicker>
+                  <ChoiceBox fx:id="addTaskStatus" prefWidth="150.0" />
+                  <ChoiceBox fx:id="addTaskPriority" prefWidth="150.0" />
+                  <TextField fx:id="addTaskDescription" prefWidth="350.0" promptText="task description" />
+                  <Button fx:id="addTaskButton" mnemonicParsing="false" onAction="#clickAtAddTaskButton" text="Add">
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin></Button>
+               </children></HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>
