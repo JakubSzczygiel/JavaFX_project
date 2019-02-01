@@ -1,0 +1,26 @@
+lut 01, 2019 9:18:30 PM sample.Main start
+INFO: Program starts
+lut 01, 2019 9:18:30 PM sample.Main start
+INFO: Loading MainWindow
+lut 01, 2019 9:18:30 PM sample.SqlHandler readTasks
+INFO: Reading task from database started
+lut 01, 2019 9:18:30 PM sample.SqlHandler read
+INFO: Reading from database finished
+lut 01, 2019 9:18:31 PM sample.Main start
+INFO: MainWindow load
+lut 01, 2019 9:18:32 PM sample.Main start
+INFO: MainWindow shown
+lut 01, 2019 9:18:53 PM sample.MainWindowController clickAtAddTaskButton
+INFO: Adding task
+lut 01, 2019 9:18:53 PM sample.SqlHandler writeOneElement
+INFO: Writing single task to database started
+lut 01, 2019 9:18:53 PM sample.SqlHandler write
+INFO: Task successfully added to database
+lut 01, 2019 9:18:53 PM sample.SqlHandler writeOneElement
+INFO: Task added to database
+lut 01, 2019 9:18:53 PM sample.MainWindowController refreshTable
+INFO: Refreshing table
+lut 01, 2019 9:18:53 PM sample.MainWindowController searchTaskAccordingToFilters
+INFO: Tasks filtering started
+lut 01, 2019 9:18:53 PM sample.MainWindowController refreshTable
+INFO: Refreshing table
