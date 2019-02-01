@@ -6,25 +6,33 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Main extends Application {
-
-    static final String MAIN_WINDOW_PATH="C:\\Users\\Jakub\\IdeaProjects\\JavaFX_z_pom\\src\\main\\resources\\MainWindow.fxml";
+    private static final Logger logger = Logger.getLogger(sample.Main.class.getName());
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        URL url= Paths.get(MAIN_WINDOW_PATH).toUri().toURL();
-        Parent root=FXMLLoader.load(url);
+    public void start(Stage primaryStage) throws Exception {
+        LogManager.getLogManager().readConfiguration(new FileInputStream(sample.Paths.LOGGER_CONFIGURATION_FILE_PATH));
+        logger.log(Level.INFO, "Program starts");
+        logger.log(Level.INFO, "Loading MainWindow");
+        URL url = Paths.get(sample.Paths.MAIN_WINDOW_PATH).toUri().toURL();
+        Parent root = FXMLLoader.load(url);
+        logger.log(Level.INFO, "MainWindow load");
         primaryStage.setTitle("TO DO");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        logger.log(Level.INFO, "MainWindow shown");
         primaryStage.setOnCloseRequest(e -> System.out.println("event wykryty"));
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         System.out.println("Stage is closing");
     }
 

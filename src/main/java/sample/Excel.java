@@ -10,13 +10,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Excel implements Writeable {
-
-    static final String EXCEL_FILE_PATH = "C:\\Users\\Jakub\\IdeaProjects\\JavaFX_todolist\\Output.xlsx";
+    private static final Logger logger = Logger.getLogger(sample.Excel.class.getName());
 
     @Override
     public void write(Collection<Task> tasks) {
+        logger.log(Level.INFO,"Writing tasks to excel starts");
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("ToDoList");
 
@@ -25,11 +27,12 @@ public class Excel implements Writeable {
         addTaskEntries(sheet, tasks);
         adjustColumnWidth(columnTitles, sheet);
         try {
-            FileOutputStream outputStream = new FileOutputStream(EXCEL_FILE_PATH);
+            FileOutputStream outputStream = new FileOutputStream(sample.Paths.EXCEL_FILE_PATH);
             workbook.write(outputStream);
             workbook.close();
+            logger.log(Level.INFO,"Writing to excel finished");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.INFO,"Writing to excel failed. Reason: " + e.getMessage(),e);
         }
     }
 

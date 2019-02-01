@@ -16,9 +16,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
-public class EditTaskWindowController implements Initializable  {
+public class EditTaskWindowController implements Initializable {
+    private static final Logger logger = Logger.getLogger(sample.EditTaskWindowController.class.getName());
 
     ControlsColorHandler controlsColorHandler = new ControlsColorHandler();
     ControlsDataReader controlsDataReader = new ControlsDataReader();
@@ -54,7 +57,7 @@ public class EditTaskWindowController implements Initializable  {
         editTaskPriority.setValue(editedTask.getPriority());
         editTaskDescription.setText(editedTask.getDescription());
         this.editedTaskId = task.getTaskId();
-        this.rootController=mainWindowController;
+        this.rootController = mainWindowController;
     }
 
     @Override
@@ -67,6 +70,8 @@ public class EditTaskWindowController implements Initializable  {
 
     @FXML
     public void clickAtEditTaskButton(ActionEvent event) {
+        logger.log(Level.INFO, "Edit button clicked");
+
         String date = controlsDataReader.getControlValue(editTaskDate);
         String status = controlsDataReader.getControlValue(editTaskStatus);
         String priority = controlsDataReader.getControlValue(editTaskPriority);
@@ -75,7 +80,7 @@ public class EditTaskWindowController implements Initializable  {
 
         if (controlsDataReader.areAllControlsFilledWithData(date, status, priority, description)) {
             sqlHandler.changeTask(this.editedTaskId, date, status, priority, description);
-            rootController.tasks=rootController.sqlHandler.read();
+            rootController.tasks = rootController.sqlHandler.read();
             rootController.refreshTable(rootController.tasks);
             rootController.searchTaskAccordingToFilters();
             Stage stage = (Stage) editTaskButton.getScene().getWindow();

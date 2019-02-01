@@ -4,8 +4,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Search {
+    private static final Logger logger = Logger.getLogger(sample.Search.class.getName());
+
     public Collection<Task> searchTaskForDateRange(Collection<Task> tasks, Date dateFrom, Date dateTo) {
         List<Task> filteredTaskList = new ArrayList<>();
         for (Task task : tasks
@@ -15,6 +19,7 @@ public class Search {
                 filteredTaskList.add(task);
             }
         }
+        logger.log(Level.FINE,"searching Task for date range finished");
         return filteredTaskList;
     }
 
@@ -27,6 +32,7 @@ public class Search {
                 filteredTaskList.add(task);
             }
         }
+        logger.log(Level.FINE,"searching Task after certain date");
         return filteredTaskList;
     }
     public Collection<Task> searchTaskBeforeCertainDate (Collection<Task> tasks, Date dateTo) {
@@ -38,6 +44,7 @@ public class Search {
                 filteredTaskList.add(task);
             }
         }
+        logger.log(Level.FINE,"searching Task before certain date");
         return filteredTaskList;
     }
 
@@ -60,6 +67,7 @@ public class Search {
                 filteredTaskList.add(task);
             }
         }
+        logger.log(Level.FINE,"searching Task for task description");
         return filteredTaskList;
     }
 
@@ -72,6 +80,7 @@ public class Search {
                 filteredTaskList.add(task);
             }
         }
+        logger.log(Level.FINE,"searching Task for task status");
         return filteredTaskList;
     }
     public Collection<Task> searchTaskForTaskPriority(Collection<Task> tasks, String taskPriority)
@@ -83,6 +92,7 @@ public class Search {
                 filteredTaskList.add(task);
             }
         }
+        logger.log(Level.FINE,"searching Task for task priority");
         return filteredTaskList;
     }
 

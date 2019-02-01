@@ -27,10 +27,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainWindowController implements Initializable {
-
-    static final String EDIT_TASK_WINDOW_PATH="C:\\Users\\Jakub\\IdeaProjects\\JavaFX_z_pom\\src\\main\\resources\\EditTaskWindow.fxml";
+    private static final Logger logger = Logger.getLogger(sample.MainWindowController.class.getName());
 
     ControlsColorHandler controlsColorHandler = new ControlsColorHandler();
     ControlsDataReader controlsDataReader = new ControlsDataReader();
@@ -119,22 +120,26 @@ public class MainWindowController implements Initializable {
 
     @FXML
     public void clickAtRemoveSelectedTask() {
+        logger.log(Level.INFO,"Remove task");
         Task taskToRemove = taskTableView.getSelectionModel().getSelectedItem();
         taskTableView.getItems().removeAll(taskToRemove);
-        System.out.println("Task removed: " + taskToRemove);
         tasks.remove(taskToRemove);
         sqlHandler.removeTask(taskToRemove);
+        logger.log(Level.INFO,"Task removed from database: " + taskToRemove);
     }
 
     @FXML
     public void clickAtEditSelectedTask(ActionEvent actionEvent) {
+        logger.log(Level.INFO,"Editing task");
         Task taskToEdit = taskTableView.getSelectionModel().getSelectedItem();
         if (taskTableView.getSelectionModel().getSelectedItem() != null) {
             try {
-                URL url= Paths.get(EDIT_TASK_WINDOW_PATH).toUri().toURL();
+                logger.log(Level.INFO, "Loading EditTaskWindow");
+                URL url= Paths.get(sample.Paths.EDIT_TASK_WINDOW_PATH).toUri().toURL();
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(url);
                 Parent tableViewParent = loader.load();
+                logger.log(Level.INFO, "EditTaskWindow load");
                 Scene scene = new Scene(tableViewParent);
 
                 EditTaskWindowController editTaskWindowController = loader.getController();
@@ -146,27 +151,31 @@ public class MainWindowController implements Initializable {
                 editTaskStage.initModality(Modality.APPLICATION_MODAL);
                 editTaskStage.setAlwaysOnTop(true);
                 editTaskStage.show();
+                logger.log(Level.INFO, "EditTaskWindow shown");
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, e.getMessage());
             }
         }
     }
 
     @FXML
     public void clickAtWriteToExcelAlData() {
+        logger.log(Level.INFO,"Write all tasks to excel");
         Excel excel = new Excel();
         excel.write(tasks);
     }
 
     @FXML
     public void clickAtWriteToExcelFilteredData() {
+        logger.log(Level.INFO,"Write filtered tasks to excel");
         Excel excel = new Excel();
         excel.write(filteredTasksGlobalVariable);
     }
 
     @FXML
     public void clickAtAddTaskButton() {
+        logger.log(Level.INFO,"Adding task");
         String date = controlsDataReader.getControlValue(addTaskDate);
         String status = controlsDataReader.getControlValue(addTaskStatus);
         String priority = controlsDataReader.getControlValue(addTaskPriority);
@@ -184,29 +193,33 @@ public class MainWindowController implements Initializable {
             searchTaskAccordingToFilters();
 
         } else {
-            System.out.println("failure");
+            logger.log(Level.SEVERE, "Adding task not possible. Some data is missing.");
         }
 
     }
 
     @FXML
     public void clearFilterDateFrom() {
+        logger.log(Level.INFO,"Clearing Date From");
         filterDateFrom.setValue(null);
     }
 
     @FXML
     public void clearFilterDateTo() {
+        logger.log(Level.INFO,"Clearing Date To");
         filterDateTo.setValue(null);
     }
 
     @FXML
     public void resetFilterControls() {
+        logger.log(Level.INFO,"Clearing all filters");
         controlsDataWriter.resetValues(filterDateFrom, filterDateTo, filterTaskDescription, filterTaskStatus, filterTaskPriority);
         filteredTasksGlobalVariable = tasks;
         refreshTable(tasks);
     }
 
     public void refreshTable(Collection<Task> refreshedTasks) {
+        logger.log(Level.INFO,"Refreshing table");
         taskTable.clear();
         taskTable.addAll(refreshedTasks);
         taskTableView.setItems(taskTable);
@@ -214,6 +227,7 @@ public class MainWindowController implements Initializable {
 
 
     public void searchTaskAccordingToFilters() {
+        logger.log(Level.INFO,"Tasks filtering started");
         Search search = new Search();
         Collection<Task> filteredTasks = new ArrayList<>();
         filteredTasks.addAll(tasks);
@@ -225,6 +239,7 @@ public class MainWindowController implements Initializable {
 
         if (controlsDataReader.areAllControlsFilledWithData(description)) {
             filteredTasks = search.searchTaskForTaskDescription(filteredTasks, description);
+
         }
         if (controlsDataReader.areAllControlsFilledWithData(status)) {
             filteredTasks = search.searchTaskForTaskStatus(filteredTasks, status);
